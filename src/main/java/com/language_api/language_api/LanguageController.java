@@ -33,19 +33,18 @@ public class LanguageController {
 
     @PutMapping("languages/{id}")
     public ResponseEntity<Language> updateLanguage(@PathVariable String id, @RequestBody Language language) {
-    return repository.findById(id)
-        .map(languageExist -> {
-            languageExist.setTitle(language.getTitle());
-            languageExist.setImage(language.getImage());
-            languageExist.setRanking(language.getRanking());
-            Language updateLanguage = repository.save(languageExist);
-            return ResponseEntity.ok(updateLanguage);
-        })
-        .orElse(ResponseEntity.notFound().build());
-    }
+        return repository.findById(id)
+            .map(existLanguage -> {
+                existLanguage.setTitle(language.getTitle());
+                existLanguage.setImage(language.getImage());
+                existLanguage.setRanking(language.getRanking());
+                return ResponseEntity.ok(repository.save(existLanguage));
+            })
+            .orElse(ResponseEntity.notFound().build());
+    }   
 
     @GetMapping("languages/ranking")
-    public List<Language> getOrderByRanking(){
+    public List<Language> getLanguageOrderByRanking(){
         List<Language> languages = repository.findAll();
         languages.sort(Comparator.comparingInt(Language::getRanking));
         return languages;
