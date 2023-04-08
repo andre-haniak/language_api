@@ -22,16 +22,13 @@ public class Language {
         return id;
     }
 
-
     public String getTitle() {
         return title;
     }
 
-
     public String getImage() {
         return image;
     }
-
 
     public int getRanking() {
         return ranking;
